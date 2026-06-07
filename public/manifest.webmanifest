@@ -1,0 +1,12 @@
+{
+  "name": "OVD – Online Video Downloader",
+  "short_name": "OVD",
+  "description": "Fast, free online video downloader.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0a24",
+  "theme_color": "#1a1240",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64", "type": "image/x-icon" }
+  ]
+}
