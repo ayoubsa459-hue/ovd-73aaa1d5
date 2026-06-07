@@ -5,6 +5,7 @@ import {
   ChevronDown, Link as LinkIcon, ClipboardPaste,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
