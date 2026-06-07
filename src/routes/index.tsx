@@ -103,6 +103,15 @@ function Index() {
                 placeholder={t("url_placeholder")}
                 className="w-full bg-transparent py-3 text-base outline-none placeholder:text-muted-foreground"
               />
+              <button
+                type="button"
+                onClick={handlePaste}
+                className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10 transition-colors border border-primary/20"
+                title={t("paste")}
+              >
+                <ClipboardPaste className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("paste")}</span>
+              </button>
             </div>
             <button
               type="submit"
