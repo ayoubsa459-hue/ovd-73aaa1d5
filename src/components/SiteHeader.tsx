@@ -23,9 +23,7 @@ export function SiteHeader() {
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg btn-hero">
             <Download className="h-5 w-5" />
           </span>
-          <span className="bg-gradient-to-r from-primary to-accent-purple bg-clip-text text-transparent">
-            OVD
-          </span>
+          <Logo />
         </Link>
 
         <nav className="hidden md:flex items-center gap-7 text-sm">
