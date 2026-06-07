@@ -28,6 +28,18 @@ function Index() {
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<string | null>(null);
 
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        setUrl(text);
+        setStatus(null);
+      }
+    } catch {
+      setStatus(lang === "ar" ? "تعذر الوصول إلى الحافظة." : "Could not access clipboard.");
+    }
+  };
+
   const handleDownload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
