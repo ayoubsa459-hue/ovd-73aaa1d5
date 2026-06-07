@@ -79,14 +79,9 @@ function Index() {
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             {lang === "ar" ? "سريع · مجاني · بدون تسجيل" : "Fast · Free · No signup"}
           </div>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight animate-fade-up">
-            <span className="bg-gradient-to-r from-primary via-accent-purple to-primary bg-clip-text text-transparent">
-              OVD
-            </span>
-            <span className="block mt-2 text-foreground text-2xl sm:text-4xl font-bold">
-              Online Video Downloader
-            </span>
-          </h1>
+          <div className="mt-6 animate-fade-up">
+            <Logo showTagline size="large" />
+          </div>
           <p className="mt-5 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground animate-fade-up">
             {t("hero_desc")}
           </p>
