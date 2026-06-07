@@ -17,6 +17,7 @@ export const dict: Dict = {
     en: "Download videos from the most popular platforms in high quality, fast and free — no signup required.",
   },
   url_placeholder: { ar: "ألصق رابط الفيديو هنا...", en: "Paste your video URL here..." },
+  paste: { ar: "لصق", en: "Paste" },
   download: { ar: "تحميل", en: "Download" },
   features_title: { ar: "لماذا OVD؟", en: "Why OVD?" },
   features_subtitle: {

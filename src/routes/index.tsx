@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Download, Zap, Smartphone, Sparkles, ShieldCheck, MousePointerClick,
-  ChevronDown, Link as LinkIcon,
+  ChevronDown, Link as LinkIcon, ClipboardPaste,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
