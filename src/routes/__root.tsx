@@ -96,6 +96,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "OVD – Online Video Downloader" },
+      { name: "description", content: "Swift Downloader is a modern, responsive web application for downloading online videos." },
+      { property: "og:description", content: "Swift Downloader is a modern, responsive web application for downloading online videos." },
+      { name: "twitter:description", content: "Swift Downloader is a modern, responsive web application for downloading online videos." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/150bc298-bc3e-4c3a-9e81-a6a0328a0e61/id-preview-a8b74ae4--e3fd8e42-b34b-47a1-a8c8-3a5a303621f3.lovable.app-1780867524518.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/150bc298-bc3e-4c3a-9e81-a6a0328a0e61/id-preview-a8b74ae4--e3fd8e42-b34b-47a1-a8c8-3a5a303621f3.lovable.app-1780867524518.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
