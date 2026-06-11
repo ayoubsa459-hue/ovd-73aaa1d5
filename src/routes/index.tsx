@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Download, Zap, Smartphone, Sparkles, ShieldCheck, MousePointerClick,
-  ChevronDown, Link as LinkIcon, ClipboardPaste,
+  ChevronDown, Link as LinkIcon, ClipboardPaste, Loader2, Play,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Logo } from "@/components/Logo";
+import { getVideoInfo, type VideoInfo } from "@/lib/api/video.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +31,24 @@ function Index() {
   const { t, lang } = useI18n();
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const [videoData, setVideoData] = useState<VideoInfo | null>(null);
+
+  const fetchVideoInfo = useServerFn(getVideoInfo);
+
+  const mutation = useMutation({
+    mutationFn: async (videoUrl: string) => {
+      return fetchVideoInfo({ data: { url: videoUrl } });
+    },
+    onSuccess: (data) => {
+      setVideoData(data);
+      setStatus(null);
+    },
+    onError: (err: unknown) => {
+      const message = err instanceof Error ? err.message : String(err);
+      setVideoData(null);
+      setStatus(message || t("error_generic"));
+    },
+  });
 
   const handlePaste = async () => {
     try {
@@ -35,6 +56,7 @@ function Index() {
       if (text) {
         setUrl(text);
         setStatus(null);
+        setVideoData(null);
       }
     } catch {
       setStatus(lang === "ar" ? "تعذر الوصول إلى الحافظة." : "Could not access clipboard.");
@@ -44,14 +66,13 @@ function Index() {
   const handleDownload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
-      setStatus(lang === "ar" ? "الرجاء إدخال رابط صالح." : "Please enter a valid URL.");
+      setStatus(t("error_invalid_url"));
+      setVideoData(null);
       return;
     }
-    setStatus(
-      lang === "ar"
-        ? "تم استلام الرابط — جاري المعالجة (عرض توضيحي)."
-        : "Link received — processing (demo)."
-    );
+    setVideoData(null);
+    setStatus(null);
+    mutation.mutate(url.trim());
   };
 
   const features = [
@@ -117,8 +138,76 @@ function Index() {
               {t("download")}
             </button>
           </form>
-          {status && (
-            <p className="mt-4 text-sm text-muted-foreground">{status}</p>
+          {mutation.isPending && (
+            <div className="mt-6 flex flex-col items-center gap-3 animate-fade-up">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="text-sm text-muted-foreground">{t("analyzing")}</p>
+            </div>
+          )}
+
+          {status && !mutation.isPending && (
+            <p className="mt-4 text-sm text-destructive">{status}</p>
+          )}
+
+          {videoData && !mutation.isPending && (
+            <div className="mt-8 mx-auto max-w-3xl text-left animate-fade-up">
+              {/* Preview card */}
+              <div className="glass-card p-4 sm:p-5 flex flex-col sm:flex-row gap-4">
+                <div className="shrink-0 relative rounded-lg overflow-hidden w-full sm:w-56 aspect-video bg-black/40">
+                  <img
+                    src={videoData.thumbnail}
+                    alt={videoData.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-full bg-primary/90 flex items-center justify-center">
+                      <Play className="h-5 w-5 text-primary-foreground fill-current" />
+                    </div>
+                  </div>
+                  <span className="absolute bottom-2 right-2 text-[11px] font-medium bg-black/70 text-white px-1.5 py-0.5 rounded">
+                    {videoData.duration}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-lg leading-snug line-clamp-2">
+                    {videoData.title}
+                  </h3>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {t("duration")}: {videoData.duration}
+                  </p>
+                </div>
+              </div>
+
+              {/* Formats */}
+              <div className="mt-4">
+                <h4 className="text-sm font-semibold mb-3">{t("available_formats")}</h4>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {videoData.formats.map((fmt, idx) => (
+                    <div
+                      key={idx}
+                      className="glass-card p-3 flex items-center justify-between gap-3"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium truncate">{fmt.label}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {fmt.ext.toUpperCase()} · {fmt.sizeText}
+                        </p>
+                      </div>
+                      <a
+                        href={fmt.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="shrink-0 btn-hero rounded-md px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1 hover:-translate-y-0.5 hover:brightness-110"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        {t("download_now")}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
         </div>
 

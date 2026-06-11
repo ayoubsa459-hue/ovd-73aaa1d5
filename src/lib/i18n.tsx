@@ -31,6 +31,15 @@ export const dict: Dict = {
   terms: { ar: "شروط الاستخدام", en: "Terms of Use" },
   rights: { ar: "جميع الحقوق محفوظة", en: "All rights reserved" },
   back_top: { ar: "العودة للأعلى", en: "Back to top" },
+  analyzing: { ar: "جارٍ تحليل الرابط...", en: "Analyzing link..." },
+  video_title: { ar: "العنوان", en: "Title" },
+  duration: { ar: "المدة", en: "Duration" },
+  quality: { ar: "الجودة", en: "Quality" },
+  size: { ar: "الحجم", en: "Size" },
+  download_now: { ar: "تحميل", en: "Download" },
+  available_formats: { ar: "الجودات المتاحة", en: "Available formats" },
+  error_invalid_url: { ar: "رابط غير صالح أو غير مدعوم.", en: "Invalid or unsupported URL." },
+  error_generic: { ar: "حدث خطأ أثناء المعالجة. حاول مرة أخرى.", en: "An error occurred. Please try again." },
 };
 
 interface I18nCtx {
