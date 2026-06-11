@@ -31,6 +31,24 @@ function Index() {
   const { t, lang } = useI18n();
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const [videoData, setVideoData] = useState<VideoInfo | null>(null);
+
+  const fetchVideoInfo = useServerFn(getVideoInfo);
+
+  const mutation = useMutation({
+    mutationFn: async (videoUrl: string) => {
+      return fetchVideoInfo({ data: { url: videoUrl } });
+    },
+    onSuccess: (data) => {
+      setVideoData(data);
+      setStatus(null);
+    },
+    onError: (err: unknown) => {
+      const message = err instanceof Error ? err.message : String(err);
+      setVideoData(null);
+      setStatus(message || t("error_generic"));
+    },
+  });
 
   const handlePaste = async () => {
     try {
@@ -38,6 +56,7 @@ function Index() {
       if (text) {
         setUrl(text);
         setStatus(null);
+        setVideoData(null);
       }
     } catch {
       setStatus(lang === "ar" ? "تعذر الوصول إلى الحافظة." : "Could not access clipboard.");
@@ -47,14 +66,13 @@ function Index() {
   const handleDownload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
-      setStatus(lang === "ar" ? "الرجاء إدخال رابط صالح." : "Please enter a valid URL.");
+      setStatus(t("error_invalid_url"));
+      setVideoData(null);
       return;
     }
-    setStatus(
-      lang === "ar"
-        ? "تم استلام الرابط — جاري المعالجة (عرض توضيحي)."
-        : "Link received — processing (demo)."
-    );
+    setVideoData(null);
+    setStatus(null);
+    mutation.mutate(url.trim());
   };
 
   const features = [
