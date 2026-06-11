@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Download, Zap, Smartphone, Sparkles, ShieldCheck, MousePointerClick,
-  ChevronDown, Link as LinkIcon, ClipboardPaste,
+  ChevronDown, Link as LinkIcon, ClipboardPaste, Loader2, Play,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Logo } from "@/components/Logo";
+import { getVideoInfo, type VideoInfo } from "@/lib/api/video.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
